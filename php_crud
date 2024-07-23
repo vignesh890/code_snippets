@@ -97,7 +97,47 @@ if(isset($_GET['del'])){
 
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 
+
+//     $name = $request->input('name');
+//     $age = $request->input('age');
+//     //using db facade
+//     DB::insert("insert into user(`name`,`age`)values(?,?)",[$name,$age]);
+//     $lists =  DB::select("select * from user");
+//     $edits =  DB::select("select * from user where id=?",[$id]);
+//     return view("user_list",["lists"=>$lists]);
+//     DB::update("update user set `name`=?,`age`=? where `id`=?",[$name,$age,$id]);
+//     DB::delete("DELETE FROM user WHERE id = ?", [$id]);
+//     //eloquent orm
+//     $user = new Reg;
+//     $user->name = $name;
+//     $user->age = $age;
+//     $user->save();
+//     /////////////
+//     $lists =  Reg::all();
+//     ////////////////
+//     $edits = Reg::find($id);
+//     $edits->name = $name;
+//     $edits->age = $age;
+//    /*update*/ $edits->save();
+//     /////////////////////
+//     $del = Reg::find($id);
+//     $dek->delete();
+
+    // $sel_user = Login::where('admincontrol.username', '=', $em)
+    // ->where('admincontrol.password', '=', $pass)
+    // ->first();
+    // $count = count((array)$sel_user);
+
+    // $request->session()->put('emailid', $em);
+    // $value = $request->session()->get('emailid');
+    
+    // ///////////image_upload//////////////
+    // $file = $request->file('img');
+    // $img = $file->getClientOriginalName();
+    // $destinationPath = 'public/assests/docpic';
+    // $file->move($destinationPath,$file->getClientOriginalName());
 
 
 
