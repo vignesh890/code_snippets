@@ -1,0 +1,115 @@
+<?php
+//connection
+$con=mysqli_connect("localhost","root","","crud");
+if(!$con)
+{
+    die("connectionfailed");
+}
+
+//insert
+
+if(isset($_POST["insert"])){
+  $name = $_REQUEST["name"];
+  $age = $_REQUEST["age"];
+  $city = $_REQUEST["city"];
+  $res = $con->query("insert into `user_info`(`name`,`age`,`city`)values('$name','$age','$city')");
+  $count = mysqli_affected_rows($con);
+    if($count > 0){
+        echo "<script>alert('success');</script>";
+    }else{
+
+        echo "<script>alert('fail');</script>";
+    }
+    //mysqli_close($con);
+
+}
+//view
+
+        <tbody>
+            <?php
+            $res= $con->query("select * from user_info" . $query);
+            if (!$res) {
+                die("Error in query: " . mysqli_error($con));
+            }
+            $count = $res->num_rows;
+            if($count > 0){
+                $i=1;
+                while($row=$res->fetch_assoc()){ ?>
+        
+        <tr>
+        <td><?php echo $i++; ?></td>
+        <td><?php echo $row['name']; ?></td>
+        <td><?php echo $row['age']; ?></td>
+        <td><?php echo $row['city']; ?></td>
+        <!-- <td><a href="edit.php?id=<?php// echo $row['id']; ?>" class="btn btn-success">edit</a></td> -->
+        <td><a href="edit/<?php echo $row['id']; ?>" class="btn btn-success">edit</a></td>
+          <td><a href="?del=<?php echo $row['id']; ?>"class="btn btn-danger" onclick="return confirm('are you confirm to delete?')">delete</a></td>
+        </tr>
+        <?php
+                }
+            }else{?>
+    <tr>no result found</tr>
+
+          <?php  }
+            ?>
+        </tbody>
+
+//edit
+
+$id = $_REQUEST['id'];
+  $res= $con->query("select * from user_info where id='$id'");
+  $count = $res->num_rows;
+  if($count > 0){
+    $row=$res->fetch_assoc();
+
+  }
+
+//update
+if(isset($_POST["update"])){
+  $name = $_REQUEST["name"];
+  $age = $_REQUEST["age"];
+  $city = $_REQUEST["city"];
+  $id = $_REQUEST["id"];
+  $res = $con->query("update `user_info` set name='$name',age='$age',city='$city' where id='$id'");
+  $count = mysqli_affected_rows($con);
+    if($count > 0){
+        echo "<script>alert('updated');window.location='/ajax_crud';</script>";
+    }else{
+
+        echo "<script>alert('fail');</script>";
+    }
+    //mysqli_close($con);
+}
+
+//delete
+
+if(isset($_GET['del'])){
+
+    $id = $_GET["del"];
+    $res = $con->query("delete from `user_info` where id='$id'");
+    $count = mysqli_affected_rows($con);
+      if($count > 0){
+          echo "<script>alert('deleted');window.location='/ajax_crud';</script>";
+      }else{
+  
+          echo "<script>alert('fail');</script>";
+      }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+?>
