@@ -1,0 +1,73 @@
+<?php
+    <table>
+        <tr>
+           <th>id</th>
+           <th>name</th>
+           <th>age</th>
+           <th>edit</th>
+           <th>delete</th>
+        </tr>
+        @foreach($lists as $list)
+        <tr>
+        <td>{{$list->id}}</td>
+        <td>{{$list->name}}</td>
+        <td>{{$list->age}}</td>
+        <td><a href="{{ url('/user_edit/' . $list->id) }}">edit</a></td>
+        <td><a href="{{ url('/user_delete/' . $list->id) }}">delete</a></td>
+        </tr>
+        @endforeach
+    </table>
+//Route::get('/orm',[Ormformcontroller::class,'form']);
+
+namespace App\Http\Controllers;
+use App\Models\Reg;
+use Illuminate\Http\Request;
+
+class Ormformcontroller extends Controller
+{
+    public function form(){
+        return view('ormtest');
+    }
+
+    public function insert(Request $request){
+        $name = $request->input('name');
+        $age = $request->input('age');
+
+        $user = new Reg;
+        $user->name = $name;
+        $user->age = $age;
+        $user->save();
+
+        return "orm_insert_success.<a href='/orm'>back</a>";
+
+    }
+
+
+    public function list(){
+
+        $lists =  Reg::all();
+        return view("orm_user_list",["lists"=>$lists]);
+     }
+     public function edit($id){
+
+        $edits = Reg::find($id);
+        return view("orm_user_edit",["edits"=>$edits]);
+     }
+ 
+     public function update(Request $request){
+        $name = $request->input('name');
+        $age = $request->input('age');
+        $id = $request->input('id');
+        $edits = Reg::find($id);
+        $edits->name = $name;
+        $edits->age = $age;
+        $edits->save();
+        return "orm_updated.<a href='/orm_user_list'>back</a>";
+}
+
+public function delete($id){
+    $edits = Reg::find($id);
+    $edits->delete();
+return "orm Deleted. <a href='/orm_user_list'>Back</a>";
+}
+}
